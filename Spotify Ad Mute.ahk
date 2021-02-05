@@ -1,6 +1,4 @@
-﻿mute := 0
-
-;Fonction qui change le son du Spotify
+﻿;Fonction qui change le son du Spotify
 setSpotifySound(pid, sound)
 {
     IMMDeviceEnumerator := ComObjCreate("{BCDE0395-E52F-467C-8E3D-C4579291692E}", "{A95664D2-9614-4F35-A746-DE8DB63617E6}")
@@ -37,22 +35,13 @@ setSpotifySound(pid, sound)
 ;Boucle qui coupe le son ou non
 Loop {
     ;Si la fenêtre pub de Spotify existe 
-    if (WinExist("Advertisement")) {
-        mute := 1
-    }
-
-    ;Si la fenêtre n'existe plus : remise du son
-    if (mute == 2) {
-        Process Exist, Spotify.exe
-        ProcessId := ErrorLevel
-        setSpotifySound(ProcessId , 100) 
-        mute := 0
-    }
-    ;Si la fenêtre existe : coupage du son
-    else if (mute == 1) {
+    if WinExist("Advertisement") {
         Process Exist, Spotify.exe
         ProcessId := ErrorLevel
         setSpotifySound(ProcessId , 0)
-        mute := 2
+    }
+    else {
+        ;Sinon -> son à 100
+        setSpotifySound(ProcessId , 100)
     }
 }
